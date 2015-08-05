@@ -1,0 +1,1 @@
+This is you knc-linux home directory..

@@ -1,0 +1,7 @@
+cygwin-*
+bin/*.exe
+Documents/
+packages/
+PortableApps/
+*.lnk
+*.exe
