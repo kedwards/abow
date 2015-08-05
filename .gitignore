@@ -1,6 +1,7 @@
 cygwin-*
 bin/*.exe
 Documents/
+home/*
 packages/
 PortableApps/
 *.lnk
