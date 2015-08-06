@@ -166,39 +166,16 @@ exit /b 0
 exit /b 0
 
 :RUN
-	if exist %home%\.bash_profile (
-        findstr /m "drive=%drive%" %home%\.bash_profile > nul
-        if %errorlevel% equ 1 (
-            echo %prefix% INFO: Setting up Drive...
-            ping 127.0.0.1 -n 1 > nul
-            %rootdir%\bin\sed.exe -i -r -e 's/^drive=.*$/drive=%drive%/' %home%/.bash_profile
-        ) else (
-            echo %prefix% INFO: Drive is set up correctly..
-        )
-    )
+	findstr /m /i /c:"DRIVE=%drive%" %home%\.bash_profile > nul
+	if "%errorlevel%"=="1" %rootdir%\bin\sed.exe -i -r -e 's/^DRIVE=.*$/DRIVE=%drive%/' %home%/.bash_profile
 	
-	if not exist %rootdir%\etc\group (
-        echo %prefix% INFO: Setting up Group...
-        ping 127.0.0.1 -n 1 > nul
-        %rootdir%\bin\mkgroup.exe -l > %rootdir%\etc\group
-    ) else (
-       echo %prefix% INFO: Group is set up correctly..
-    )
+	if not exist %rootdir%\etc\group %rootdir%\bin\mkgroup.exe -l > %rootdir%\etc\group
 	
 	for /F %%B in ('%rootdir%\bin\mkpasswd.exe -c ^| %rootdir%\bin\gawk.exe -F":" '{ print $5 }'') do set sid=%%B
     if not exist %rootdir%\etc\passwd %rootdir%\bin\mkpasswd.exe -l > %rootdir%\etc\passwd
     
     findstr /m /c:"%linux_home%" %rootdir%\etc\passwd > nul
-	if %errorlevel% equ 1 (
-		echo %prefix% INFO: Setting up Users...
-		ping 127.0.0.1 -n 1 > nul
-        %rootdir%\bin\sed.exe -i -r -e 's/\/home\/Kevin/%linux_home%/' %rootdir%\etc\passwd
-	) else (
-		echo %prefix% INFO: User has been correctly setup..
-	)
-
-	echo %prefix% INFO: booting...
-	ping 127.0.0.1 -n 3 > nul
+	if "%errorlevel%"=="1" %rootdir%\bin\sed.exe -i -r -e 's/\/home\/Kevin/%linux_home%/' %rootdir%\etc\passwd
 
 	:: bash with mintty frontend
 	:: Options:
@@ -216,7 +193,7 @@ exit /b 0
 	::      --class CLASS     Set window class name (default: mintty)
 	::  -H, --help            Display help and exit
 	::  -V, --version         Print version information and exit
-	start %rootdir%\bin\mintty.exe -t "KnC Linux on Windows" -s 150,50 -i %rootdir%\Cygwin-Terminal.ico -e /bin/bash --login -i
+	start %rootdir%\bin\mintty.exe -t "KnC Linux on Windows" -s 100,30 -i %rootdir%\Cygwin-Terminal.ico -e /bin/bash --login -i
 exit
 
 :UNINSTALL
