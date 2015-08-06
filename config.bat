@@ -2,6 +2,11 @@
 :: KnC.bat configuration
 ::
 
+:: Status
+:: Installed, last Updated
+set installed=1
+set updated=2010-04-14
+
 :: 
 ::32-bit (x86) or 64-bit (x86_64) architecture
 set arch=x86_64
@@ -15,12 +20,6 @@ set auto_update=0
 :: Proxy ex. http://<user>:<password>@<proxy:port>
 set proxy=
 
-:: Status
-:: Installed
-:: last Updated
-set installed=1
-set updated=2015-08-04
-
 :: Mirror & Cygwin Ports site
 set portsdir=ftp://ftp.cygwinports.org/pub/cygwinports
 set pubkeysite=http://cygwinports.org/ports.gpg
@@ -29,11 +28,11 @@ set site=http://cygwin.osuosl.org
 :: Drive, root, package, and home directories
 set drive=%~d0
 set drive=%drive:~0,1%
-set kncroot=%~dp0
-set rootdir=%kncroot%cygwin-%arch%
-set bindir=%kncroot%bin
-set home=%kncroot%home
-set localdir=%kncroot%packages
+set root=%~dp0
+set rootdir=%root%cygwin-%arch%
+set bindir=%root%bin
+set home=%root%home
+set localdir=%root%packages
 
 for %%a in (.) do set folder=%%~na
 set linux_home=\/cygdrive\/%drive%\/%folder%\/home
