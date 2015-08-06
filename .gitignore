@@ -1,8 +1,7 @@
-cygwin-*
+apps/
 bin/*.exe
-Documents/
+cygwin-*
 home/*
+knc/
 packages/
-PortableApps/
 *.lnk
-*.exe
