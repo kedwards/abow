@@ -35,4 +35,4 @@ set home=%root%home
 set localdir=%root%packages
 
 for %%a in (.) do set folder=%%~na
-set linux_home=\/cygdrive\/%drive%\/%folder%\/home
+set linux_home=\/cygdrive\/%drive%\/knc\/%folder%\/home
