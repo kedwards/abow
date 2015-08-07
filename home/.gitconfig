@@ -3,3 +3,5 @@
 [user]
 	name = Kevin Edwards
 	email = kedwards@kncedwards.com
+[push]
+	default = simple
