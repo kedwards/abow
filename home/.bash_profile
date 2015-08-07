@@ -1,5 +1,5 @@
-DRIVE=c
-APP_DIR=/cygdrive/$drive/knc-linux/apps/PortableApps
+DRIVE=D
+APP_DIR=/cygdrive/$drive/knc/app/PortableApps
 
 if [ -r ~/.dircolors ]; then
     eval "$(dircolors ~/.dircolors)"
@@ -9,7 +9,7 @@ if [ -f ~/.bashrc ]; then
  	. ~/.bashrc
 fi
 
-HOME=/cygdrive/$drive/knc-linux/home
+HOME=/cygdrive/$drive/knc/nix/home
 OPENSSL_CONF=~/.ssl/openssl.cnf
 PHP_PATH=$APP_DIR/easy-php/binaries/php/php_runningversion
 TERM=xterm-256color
