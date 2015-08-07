@@ -401,7 +401,7 @@
 " }}}
 " Backup & Files {{{
     " viminfo file - remember settings between sessions
-    set viminfo=%,<250,'50,/50,:100,h,f1,n~/.vim/viminfo
+    "set viminfo=%,<250,'50,/50,:100,h,f1,n~/.vim/viminfo
     "            |  |    |   |   |   |  |     |   
     "            |  |    |   |   |   |  |     |   
     "            |  |    |   |   |   |  |     |   

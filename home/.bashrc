@@ -29,7 +29,7 @@ cwdcolor='[1;32m'
 gitcolor='[1;33m'
 user_color
 
-PROMPT_COMMAND='settitle; git_branch; history -a;'
+PROMPT_COMMAND='git_branch; history -a;'
 
 PS1='\[\033${usercolor}\]:[\u]:\[\033${gitcolor}\]:${gitbranch}:\[\033${cwdcolor}\]:[\w]:\[\033${inputcolor}\] '
 export PS1
