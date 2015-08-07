@@ -1,7 +1,11 @@
 apps/
 bin/*.exe
 cygwin-*
-home/*
+home/.aws
+home/.bash_history
+home/.gnupg
+home/.ssh
+home/.viminfo
 knc/
 packages/
 *.lnk
