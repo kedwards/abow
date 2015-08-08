@@ -1,4 +1,4 @@
-DRIVE=D
+DRIVE=C
 APP_DIR=/cygdrive/$drive/knc/app/PortableApps
 
 if [ -r ~/.dircolors ]; then
