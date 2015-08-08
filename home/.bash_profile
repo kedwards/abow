@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 DRIVE=C
 APP_DIR=/cygdrive/$drive/knc/app/PortableApps
+=======
+DRIVE=D
+APP_DIR=/cygdrive/$DRIVE/knc/app/PortableApps
+>>>>>>> removed vim plugins
 
 if [ -r ~/.dircolors ]; then
     eval "$(dircolors ~/.dircolors)"
@@ -9,7 +14,8 @@ if [ -f ~/.bashrc ]; then
  	. ~/.bashrc
 fi
 
-HOME=/cygdrive/$drive/knc/nix/home
+COMPOSER_HOME=/cygdrive/$DRIVE/knc/nix/home/.composer
+HOME=/cygdrive/$DRIVE/knc/nix/home
 OPENSSL_CONF=~/.ssl/openssl.cnf
 PHP_PATH=$APP_DIR/easy-php/binaries/php/php_runningversion
 TERM=xterm-256color
@@ -18,14 +24,15 @@ VAGRANT_PATH=$APP_DIR/vagrant/bin
 VIRTUALBOX_PATH=$APP_DIR/virtualbox/app64
 
 PATH=$PHP_PATH:$VAGRANT_PATH:$VIRTUALBOX_PATH:$PATH
-export TERM PATH OPENSSL_CONF HOME VAGRANT_HOME
+export TERM PATH OPENSSL_CONF HOME VAGRANT_HOME COMPOSER_HOME
 
-uscreen=/tmp/uscreens
+USCREEN=/tmp/uscreens
+UUSCREEN=/tmp/uscreens/S-$USERNAME
 
-if [ -d $uscreen ]; then
-    chmod 777 $uscreen
-	chgrp Users $uscreen
-	
+if [ -d $USCREEN ]; then
+    chmod 777 $USCREEN
+	chgrp Users $USCREEN
+	chmod 700 $UUSCREEN
 	echo "Starting screen in 3 seconds, press Q to cancel.";  
     for i in 3 2 1 ; do   
         read -n 1 -t 1 -s a && break  
