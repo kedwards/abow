@@ -77,7 +77,6 @@ exit /b 1
     echo KnC Root:    %kncroot%
     echo Root Dir:    %rootdir%
     echo Home:        %home%
-    ::echo Linux Home:  %linux_home%
     echo Local Dir:   %localdir%
 exit /b 0
 
@@ -172,12 +171,11 @@ exit /b 0
 	findstr /m /i /c:"DRIVE=%drive%" %home%\.bash_aliases > nul
 	if "%errorlevel%"=="1" %rootdir%\bin\sed.exe -i -r -e 's/^DRIVE=.*$/DRIVE=%drive%/' %home%/.bash_aliases
 	
-	findstr /b /i /c:"Users:" %rootdir%\etc\group > nul
-	if "%errorlevel%"=="1" %rootdir%\bin\mkgroup.exe -l > %rootdir%\etc\group
-	
-    %rootdir%\bin\mkpasswd.exe -l > %rootdir%\etc\passwd
+	%rootdir%\bin\mkgroup.exe -l > %rootdir%\etc\group
+	%rootdir%\bin\mkpasswd.exe -l > %rootdir%\etc\passwd
 	%rootdir%\bin\mkpasswd.exe -c >> %rootdir%\etc\passwd
-    findstr /m /c:"%linux_home%" %rootdir%\etc\passwd > nul
+    
+	findstr /m /c:"%linux_home%" %rootdir%\etc\passwd > nul
 	if "%errorlevel%"=="1" %rootdir%\bin\sed.exe -i -r -e 's/\/home\/%username%/%linux_home%/' %rootdir%\etc\passwd
 	
 	:: bash with mintty frontend
@@ -212,29 +210,27 @@ exit
     echo %prefix% INFO: Cleaning up Completed
 exit /b 0
 
-:get_admin
-    :: ADMIN CMD - %windir%\System32\cmd.exe /k "cd /d c:\knc-linux"
+:GET_ADMIN
+    :: ADMIN CMD - %windir%\System32\cmd.exe /k "cd /d c:\knc\nix"
 	:: Check for ADMIN privileges, https://sites.google.com/site/eneerge/home/BatchGotAdmin
     >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
     if '%errorlevel%' neq '0' (
         echo Requesting administrative privileges...
         goto UACPrompt
-    ) else ( goto gotAdmin )
-
+    ) else (goto :GOT_ADMIN)
     :UACPrompt
         echo Set UAC = CreateObject^("Shell.Application"^) > getadmin.vbs
         echo UAC.ShellExecute "%~s0", "%1", "", "runas", 1 >> getadmin.vbs
         getadmin.vbs && del getadmin.vbs
         exit /b 0
-
-    :gotAdmin
-        if defined install goto :minstall
-        goto :mupdate
+    :GOT_ADMIN
 exit /b 0
 
 :: -- MAIN --
 :MAIN
 	cls
+	call :GET_ADMIN
+	pause
 	call :INIT || goto :HANDLE_ERROR
 	for %%a in (%*) do (if "%%a"=="c" call :CONFIG)
 	for %%a in (%*) do (if "%%a"=="u" call :INSTALL_UPDATE || goto :HANDLE_ERROR)
