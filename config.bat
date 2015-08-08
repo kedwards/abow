@@ -5,7 +5,7 @@
 :: Status
 :: Installed, last Updated
 set installed=1
-set updated=2010-04-14
+set updated=2015-08-08
 
 :: 
 ::32-bit (x86) or 64-bit (x86_64) architecture
@@ -15,7 +15,7 @@ set arch=x86_64
 set packages=curl,git,screen,vim,vim-common,wget,gnupg
 
 :: Auto-update Cygwin binary
-set auto_update=0
+set autoupdate=1
 
 :: Proxy ex. http://<user>:<password>@<proxy:port>
 set proxy=
