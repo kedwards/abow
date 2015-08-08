@@ -6,5 +6,5 @@ home/.ssh
 home/.viminfo
 packages/
 .cache/
-.vim/plugged/
+.vim/plugged/*
 *.lnk
