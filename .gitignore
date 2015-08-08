@@ -7,4 +7,3 @@ home/.viminfo
 packages/
 .cache/
 .vim/plugged/*
-*.lnk
