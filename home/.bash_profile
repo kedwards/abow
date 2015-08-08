@@ -1,6 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 DRIVE=C
 APP_DIR=/cygdrive/$drive/knc/app/PortableApps
+=======
+DRIVE=D
+APP_DIR=/cygdrive/$DRIVE/knc/app/PortableApps
+>>>>>>> removed vim plugins
 =======
 DRIVE=D
 APP_DIR=/cygdrive/$DRIVE/knc/app/PortableApps
