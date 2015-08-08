@@ -77,7 +77,6 @@ exit /b 1
     echo KnC Root:    %kncroot%
     echo Root Dir:    %rootdir%
     echo Home:        %home%
-    ::echo Linux Home:  %linux_home%
     echo Local Dir:   %localdir%
 exit /b 0
 
@@ -211,29 +210,27 @@ exit
     echo %prefix% INFO: Cleaning up Completed
 exit /b 0
 
-:get_admin
-    :: ADMIN CMD - %windir%\System32\cmd.exe /k "cd /d c:\knc-linux"
+:GET_ADMIN
+    :: ADMIN CMD - %windir%\System32\cmd.exe /k "cd /d c:\knc\nix"
 	:: Check for ADMIN privileges, https://sites.google.com/site/eneerge/home/BatchGotAdmin
     >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
     if '%errorlevel%' neq '0' (
         echo Requesting administrative privileges...
         goto UACPrompt
-    ) else ( goto gotAdmin )
-
+    ) else (goto :GOT_ADMIN)
     :UACPrompt
         echo Set UAC = CreateObject^("Shell.Application"^) > getadmin.vbs
         echo UAC.ShellExecute "%~s0", "%1", "", "runas", 1 >> getadmin.vbs
         getadmin.vbs && del getadmin.vbs
         exit /b 0
-
-    :gotAdmin
-        if defined install goto :minstall
-        goto :mupdate
+    :GOT_ADMIN
 exit /b 0
 
 :: -- MAIN --
 :MAIN
 	cls
+	call :GET_ADMIN
+	pause
 	call :INIT || goto :HANDLE_ERROR
 	for %%a in (%*) do (if "%%a"=="c" call :CONFIG)
 	for %%a in (%*) do (if "%%a"=="u" call :INSTALL_UPDATE || goto :HANDLE_ERROR)
