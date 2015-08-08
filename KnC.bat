@@ -180,7 +180,6 @@ exit /b 0
     findstr /m /c:"%linux_home%" %rootdir%\etc\passwd > nul
 	if "%errorlevel%"=="1" %rootdir%\bin\sed.exe -i -r -e 's/\/home\/%username%/%linux_home%/' %rootdir%\etc\passwd
 	
-	pause
 	:: bash with mintty frontend
 	:: Options:
 	::  -c, --config FILE     Load specified config file
