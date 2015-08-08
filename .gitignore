@@ -3,6 +3,7 @@ cygwin-*
 home/.bash_history
 home/.gnupg
 home/.ssh
+home/.vim/plugged
 home/.viminfo
 packages/
 .cache/
