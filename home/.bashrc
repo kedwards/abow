@@ -40,3 +40,29 @@ fi
 
 # Build tag files
 ctags-php(){ ctags -f ~/.vim.tags/$1 -h ".php" --totals=yes --tag-relative=yes --fields=+aimSfkst --PHP-kinds=+cf -R $2; }
+
+# proxy on/off
+prox()
+{
+	if [ "$1" == "on" ]; then
+		PROXY=http://localhost:3128;
+		ACTION=start;
+	elif [ "$1" == "off" ]; then
+		PROXY="";
+		ACTION=stop;
+	fi
+	
+	if [ $ACTION ]; then
+		export http_proxy=$PROXY;
+		export HTTP_PROXY=$PROXY;
+		export https_proxy=$PROXY;
+		
+		cntlm.bat $ACTION;
+		
+		if [ "$ACTION" == "start" ]; then
+			sed -i 's|#proxy = http://localhost:3128|proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
+		else
+			sed -i 's|proxy = http://localhost:3128|#proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
+		fi
+	fi
+}
