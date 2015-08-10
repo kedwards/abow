@@ -1,6 +1,9 @@
 DRIVE=D
 
-alias home='cd /cygdrive/$DRIVE/knc/nix/home'
+alias dev='cd /cygdrive/$DRIVE/knc/stor/dev'
+alias dl='cd /cygdrive/$DRIVE/knc/stor/dl'
+alias root='cd /cygdrive/$DRIVE/knc'
+
 alias gip="cygcheck -c -d|sed -e "1,2d" -e 's/ .*$//' > ~/installedPackages"
 alias lf='ls -AlF --color'
 alias ls='ls --color'

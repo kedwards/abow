@@ -19,17 +19,32 @@ if [ -f ~/.bashrc ]; then
  	. ~/.bashrc
 fi
 
-COMPOSER_HOME=/cygdrive/$DRIVE/knc/nix/home/.composer
-HOME=/cygdrive/$DRIVE/knc/nix/home
-OPENSSL_CONF=~/.ssl/openssl.cnf
-PHP_PATH=$APP_DIR/easy-php/binaries/php/php_runningversion
-TERM=xterm-256color
-VAGRANT_HOME=~/.vagrant
-VAGRANT_PATH=$APP_DIR/vagrant/bin
-VIRTUALBOX_PATH=$APP_DIR/virtualbox/app64
+export HOME=/cygdrive/$DRIVE/knc/nix/home
+export TERM=xterm-256color
 
-PATH=$PHP_PATH:$VAGRANT_PATH:$VIRTUALBOX_PATH:$PATH
-export TERM PATH OPENSSL_CONF HOME VAGRANT_HOME COMPOSER_HOME
+# ansible
+ANSIBLE=/opt/ansible
+ANSIBLE_PATH=$ANSIBLE/bin
+export PYTHONPATH=$ANSIBLE/lib
+export ANSIBLE_LIBRARY=$ANSIBLE/library
+export ANSIBLE_HOSTS=/etc/ansible/hosts
+
+# composer
+export COMPOSER_HOME=~/.composer
+
+# php
+PHP_PATH=$APP_DIR/easy-php/binaries/php/php_runningversion
+
+# vagrant
+export VAGRANT_HOME=/knc/nix/home/.vagrant
+export VAGRANT_DOTFILE_PATH=/knc/nix/home/.vagrant
+VAGRANT_PATH=$APP_DIR/vagrant/bin
+
+# virtual box
+VIRTUALBOX_PATH=$APP_DIR/virtualbox/app64
+VBOX_USER_HOME=$DRIVE:/knc/stor/vm/machines
+
+PATH=$ANSIBLE_PATH:$PHP_PATH:$VAGRANT_PATH:$VIRTUALBOX_PATH:$PATH
 
 USCREEN=/tmp/uscreens
 UUSCREEN=/tmp/uscreens/S-$USERNAME
