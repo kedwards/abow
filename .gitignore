@@ -3,6 +3,8 @@ cygwin-*
 home/.bash_history
 home/.gnupg
 home/.ssh
+home/.composer
+home/.vagrant
 home/.vim/plugged
 home/.viminfo
 packages/
