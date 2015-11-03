@@ -74,17 +74,17 @@ exit /b 1
     echo Pubkey Site: %pubkeysite%
     echo Mirror Site: %site%
     echo Drive:       %drive%
-    echo KnC Root:    %kncroot%
     echo Root Dir:    %rootdir%
+    echo Bin Path:    %bindir%
     echo Home:        %home%
     echo Local Dir:   %localdir%
 exit /b 0
 
 :GET_SETUP
-	if "%autoupdate%"=="0" exit /b 0
-	
 	if not exist %rootdir% mkdir %rootdir%
-    ::if not exist %rootdir%\cygwin.exe echo %prefix% ERROR: %rootdir%\cygwin.exe cannot be found. && exit /b 1
+    if not exist %rootdir%\cygwin.exe echo %prefix% ERROR: %rootdir%\cygwin.exe cannot be found. && exit /b 1
+    
+    if "%autoupdate%"=="0" exit /b 0
 	
     if "%proxy%"=="" (
 		set http_proxy%proxy%
@@ -119,7 +119,7 @@ exit /b 0
 
 :INSTALL_UPDATE
 	echo %prefix% Running Setup-%arch%.exe to install/upgrade packages
-	call :CHECK_BIN || exit /b 1
+	::call :CHECK_BIN || exit /b 1
 	call :GET_SETUP || exit /b 1
 
 	::Command Line Options:
@@ -154,8 +154,7 @@ exit /b 0
 	::
 	if "%proxy%"=="" %rootdir%\cygwin.exe --quiet-mode --no-shortcuts --upgrade-also --arch %arch% --site %site% --root %rootdir% --local-package-dir %localdir% --packages %packages%
 	if "%proxy%" neq "" %rootdir%\cygwin.exe --quiet-mode --no-shortcuts --upgrade-also --arch %arch% --site %site% --root %rootdir% --local-package-dir %localdir% --packages %packages% --proxy %proxy%
-	if "%installed%"=="0" %rootdir%\bin\sed.exe -i -r -e 's/^set installed=0$/set installed=1/' %root%/config.bat
-	%rootdir%\bin\sed.exe -i -r -e 's/^set updated=.*$/set updated=%date%/' %root%/config.bat
+	if "%installed%"=="0" %rootdir%\bin\sed.exe -i -r 's/^set installed=0$/set installed=1/' %root%/config.bat
 exit /b 0
 
 :PERMISSIONS
@@ -204,7 +203,7 @@ exit /b 0
 	start %rootdir%\bin\mintty.exe -t "KnC Linux on Windows" -s 100,30 -i %rootdir%\Cygwin-Terminal.ico -e /bin/bash --login -i
 exit
 
-:UNINSTALL
+:REMOVE
 	echo %prefix% WARNING: Uninstalling KnC-Linux..
 	set /p continue=Do you wish to remove KnC-Linux (Y/N)?
 	if /i "%continue:~,1%" equ "Y" goto :CLEANUP
