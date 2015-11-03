@@ -56,13 +56,14 @@ prox()
 		export http_proxy=$PROXY;
 		export HTTP_PROXY=$PROXY;
 		export https_proxy=$PROXY;
-		
-		cntlm.bat $ACTION;
+        export ftp_proxy=$PROXY;
 		
 		if [ "$ACTION" == "start" ]; then
 			sed -i 's|#proxy = http://localhost:3128|proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
+             cygstart /cygdrive/d/knc/app/PortableApps/cntlm/cntlm.exe -vc /cygdrive/d/knc/app/PortableApps/cntlm/cntlm.ini
 		else
 			sed -i 's|proxy = http://localhost:3128|#proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
+            tskill cntlm
 		fi
 	fi
 }
