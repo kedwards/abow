@@ -22,23 +22,11 @@ fi
 export HOME=/cygdrive/$DRIVE/knc/nix/home
 export TERM=xterm-256color
 
-# ansible
-ANSIBLE=/opt/ansible
-ANSIBLE_PATH=$ANSIBLE/bin
-export PYTHONPATH=$ANSIBLE/lib
-export ANSIBLE_LIBRARY=$ANSIBLE/library
-export ANSIBLE_HOSTS=/etc/ansible/hosts
-
 # composer
 export COMPOSER_HOME=~/.composer
 
 # php
 PHP_PATH=$APP_DIR/easy-php/binaries/php/php_runningversion
-
-# ruby
-RUBY_PATH=$DRIVE:/knc/app/ruby/bin:$DRIVE:/knc/app/ruby/bin
-RUBYOPT=
-RUBYLIB=$DRIVE:/knc/app/PortableApps/ruby/lib
 
 # vagrant
 export VAGRANT_HOME=/knc/nix/home/.vagrant
@@ -49,7 +37,7 @@ VAGRANT_PATH=$APP_DIR/vagrant/bin
 VIRTUALBOX_PATH=$APP_DIR/virtualbox/app64
 VBOX_USER_HOME=$DRIVE:/knc/stor/vm/machines
 
-PATH=$ANSIBLE_PATH:$PHP_PATH:$RUBY_PATH:$VAGRANT_PATH:$VIRTUALBOX_PATH:$PATH
+PATH=$PHP_PATH:$VAGRANT_PATH:$VIRTUALBOX_PATH:$PATH
 
 USCREEN=/tmp/uscreens
 UUSCREEN=/tmp/uscreens/S-$USERNAME
