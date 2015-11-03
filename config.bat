@@ -4,20 +4,22 @@
 
 :: Status
 :: Installed, last Updated
-set installed=1
-set updated=2015-08-10
+set installed=0
 
 :: 
 ::32-bit (x86) or 64-bit (x86_64) architecture
 set arch=x86_64
 
 :: Package List
-set packages=curl,gcc,gcc-core,gnupg,git,make,openssh,openssl-devel,python,python-crypto,python-paramiko,python-setuptools,python-ssl,screen,vim,vim-common,wget
+set python_packages=python,python-crypto,python-paramiko,python-setuptools,python-ssl
+set packages=curl,gcc,gcc-core,gnupg,git,make,openssh,openssl-devel,screen,vim,vim-common,wget
 
 :: Auto-update Cygwin binary
 set autoupdate=0
 
 :: Proxy ex. http://<user>:<password>@<proxy:port>
+:: http://kxedward:Chelsea!sMyLif3@calproxyusr.na.tlm.com:8080
+:: cntlm http://localhost:3128
 set proxy=
 
 :: Mirror & Cygwin Ports site
