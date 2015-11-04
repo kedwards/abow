@@ -11,14 +11,20 @@ set installed=0
 set arch=x86_64
 
 :: Package List
+<<<<<<< HEAD
 set python_packages=python,python-crypto,python-paramiko,python-setuptools,python-ssl
+=======
+>>>>>>> Adding initial configuration file back to repo
 set packages=curl,gcc,gcc-core,gnupg,git,make,openssh,openssl-devel,screen,vim,vim-common,wget
 
 :: Auto-update Cygwin binary
 set autoupdate=0
 
 :: Proxy ex. http://<user>:<password>@<proxy:port>
+<<<<<<< HEAD
 :: http://kxedward:Chelsea!sMyLif3@calproxyusr.na.tlm.com:8080
+=======
+>>>>>>> Adding initial configuration file back to repo
 :: cntlm http://localhost:3128
 set proxy=
 
@@ -37,4 +43,8 @@ set home=%root%home
 set localdir=%root%packages
 
 for %%a in (.) do set folder=%%~na
+<<<<<<< HEAD
 set linux_home=\/cygdrive\/%drive%\/knc\/%folder%\/home
+=======
+set linux_home=\/cygdrive\/%drive%\/knc\/%folder%\/home
+>>>>>>> Adding initial configuration file back to repo
