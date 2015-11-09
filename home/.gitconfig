@@ -1,5 +1,5 @@
 [http]
-    #proxy = http://localhost:3128
+    proxy = http://localhost:3128
 [user]
 	name = Kevin Edwards
 	email = kedwards@kncedwards.com

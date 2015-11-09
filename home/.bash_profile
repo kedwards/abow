@@ -47,4 +47,4 @@ xterm-256color)
 
     fi
     ;;
- esac
+esac

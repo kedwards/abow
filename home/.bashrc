@@ -145,6 +145,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Build tag files
+ctags-php(){ ctags -f ~/.vim.tags/$1 -h ".php" --totals=yes --tag-relative=yes --fields=+aimSfkst --PHP-kinds=+cf -R $2; }
+
 # proxy on/off
 prox()
 {
