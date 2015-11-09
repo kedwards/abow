@@ -171,3 +171,16 @@ prox()
 		fi
 	fi
 }
+<<<<<<< HEAD
+=======
+
+# aria2 on/off
+aria2()
+{
+    if [ "$1" == "on" ]; then
+		cygstart /cygdrive/d/knc/app/PortableApps/aria2/aria2c.exe --enable-rpc --rpc-listen-all
+	elif [ "$1" == "off" ]; then
+		tskill aria2c
+	fi
+}
+>>>>>>> Added aria2 configuration

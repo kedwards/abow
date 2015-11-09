@@ -1,5 +1,6 @@
 DRIVE=D
 
+alias app='cd /cygdrive/$DRIVE/knc/app/PortableApps'
 alias dev='cd /cygdrive/$DRIVE/knc/stor/dev'
 alias dl='cd /cygdrive/$DRIVE/knc/dl'
 alias nix='cd /cygdrive/$DRIVE/knc/nix'

@@ -45,8 +45,10 @@ if "%selfWrapped%"=="" (
 :CHECK_BIN
 	echo %prefix% Veriyfing required binaries are available..
 	:: Check for required binary to download setup-%arch%.exe
-	:: Prefer curl over wget from knc-linux over system path location
-	if exist %bindir%\curl.exe set exe=curl.exe
+	:: Prefer aria2 over curl over wget from knc-linux over system path location
+	if exist d:\knc\app\PortableApps\aria2\aria2c.exe set exe=aria2c.exe
+	if exist d:\knc\app\PortableApps\aria2\aria2c.exe exit /b 0
+    if exist %bindir%\curl.exe set exe=curl.exe
 	if exist %bindir%\curl.exe exit /b 0
 	for /f %%i in ("curl.exe") do if not "%%~$PATH:i" == "" set exe=curl.exe
 	for /f %%i in ("curl.exe") do if not "%%~$PATH:i" == "" exit /b 0
@@ -100,7 +102,6 @@ exit /b 0
 	echo %prefix% Running Setup-%arch%.exe to install/upgrade packages
 	call :CHECK_BIN || exit /b 1
 	call :GET_BIN || exit /b 1
-
 	::Command Line Options:
 	:: -D --download                     Download from internet
 	:: -L --local-install                Install from local directory
@@ -153,7 +154,8 @@ exit /b 0
 	)
     
 	echo %prefix% Retrieving new setup executable..
-	if /I "%exe%"=="curl.exe" %bindir%\%exe% -so %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe
+	if /I "%exe%"=="aria2c.exe" start d:\knc\app\PortableApps\aria2\aria2c.exe -d %rootdir% -o cygwin_aria2.exe --all-proxy=localhost:3128 http://cygwin.com/setup-%arch%.exe
+    if /I "%exe%"=="curl.exe" %bindir%\%exe% -so %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe
 	if /I "%exe%"=="wget.exe" %bindir%\%exe% -qO %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe%
 exit /b 0
 
