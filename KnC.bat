@@ -80,27 +80,6 @@ exit /b 1
     echo Local Dir:   %localdir%
 exit /b 0
 
-:GET_SETUP
-	if not exist %rootdir% mkdir %rootdir%
-    if not exist %rootdir%\cygwin.exe echo %prefix% ERROR: %rootdir%\cygwin.exe cannot be found. && exit /b 1
-    
-    if "%autoupdate%"=="0" exit /b 0
-	
-    if "%proxy%"=="" (
-		set http_proxy%proxy%
-		set HTTP_PROXY=%proxy%
-		set HTTPS_PROXY=%proxy%
-	) else (
-		set http_proxy=
-		set HTTP_PROXY=
-		set HTTPS_PROXY=
-	)
-    
-	echo %prefix% Retrieving new setup executable..
-	if /I "%exe%"=="curl.exe" %bindir%\%exe% -so %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe
-	if /I "%exe%"=="wget.exe" %bindir%\%exe% -qO %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe%
-exit /b 0
-
 :HANDLE_ERROR
 	echo.
 	echo Please correct the errors above and rerun the script.
@@ -119,8 +98,8 @@ exit /b 0
 
 :INSTALL_UPDATE
 	echo %prefix% Running Setup-%arch%.exe to install/upgrade packages
-	::call :CHECK_BIN || exit /b 1
-	call :GET_SETUP || exit /b 1
+	call :CHECK_BIN || exit /b 1
+	call :GET_BIN || exit /b 1
 
 	::Command Line Options:
 	:: -D --download                     Download from internet
@@ -155,6 +134,27 @@ exit /b 0
 	if "%proxy%"=="" %rootdir%\cygwin.exe --quiet-mode --no-shortcuts --upgrade-also --arch %arch% --site %site% --root %rootdir% --local-package-dir %localdir% --packages %packages%
 	if "%proxy%" neq "" %rootdir%\cygwin.exe --quiet-mode --no-shortcuts --upgrade-also --arch %arch% --site %site% --root %rootdir% --local-package-dir %localdir% --packages %packages% --proxy %proxy%
 	if "%installed%"=="0" %rootdir%\bin\sed.exe -i -r 's/^set installed=0$/set installed=1/' %root%/config.bat
+exit /b 0
+
+:GET_BIN
+	if not exist %rootdir% mkdir %rootdir%
+    if not exist %rootdir%\cygwin.exe echo %prefix% ERROR: %rootdir%\cygwin.exe cannot be found. && exit /b 1
+    
+    if "%autoupdate%"=="0" exit /b 0
+	
+    if "%proxy%"=="" (
+		set http_proxy%proxy%
+		set HTTP_PROXY=%proxy%
+		set HTTPS_PROXY=%proxy%
+	) else (
+		set http_proxy=
+		set HTTP_PROXY=
+		set HTTPS_PROXY=
+	)
+    
+	echo %prefix% Retrieving new setup executable..
+	if /I "%exe%"=="curl.exe" %bindir%\%exe% -so %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe
+	if /I "%exe%"=="wget.exe" %bindir%\%exe% -qO %rootdir%\cygwin.exe http://cygwin.com/setup-%arch%.exe%
 exit /b 0
 
 :PERMISSIONS
