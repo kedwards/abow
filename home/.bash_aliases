@@ -1,7 +1,8 @@
 DRIVE=D
 
 alias dev='cd /cygdrive/$DRIVE/knc/stor/dev'
-alias dl='cd /cygdrive/$DRIVE/knc/stor/dl'
+alias dl='cd /cygdrive/$DRIVE/knc/dl'
+alias nix='cd /cygdrive/$DRIVE/knc/nix'
 alias root='cd /cygdrive/$DRIVE/knc'
 alias sshi='/usr/local/bin/ssh-ident'
 
