@@ -19,10 +19,15 @@ set python_packages=python,python-crypto,python-paramiko,python-setuptools,pytho
 set packages=curl,gcc,gcc-core,gnupg,git,make,openssh,openssl-devel,screen,vim,vim-common,wget
 =======
 set awscli_packages=binutils,libuuid,libuuid-devel,libssh2-devel,libssh2_1
+set php_packages=php,php-curl,php-fileinfo,php-gettext,php-mcrypt,php-opcache,php-phar,php-json
 set python_packages=python-crypto,python-paramiko,python-setuptools,python-ssl
 set core_packages=curl,gcc,gcc-core,gnupg,git,make,openssh,openssl-devel,python,screen,vim,vim-common,wget
+<<<<<<< HEAD
 set packages=%core_packages%,%awscli_packages%
 >>>>>>> Adding GnuPG, Bash, and SSH configurations
+=======
+set packages=%core_packages%,%awscli_packages%,%php_packages%
+>>>>>>> Updated configuration and some vim additions
 
 :: Auto-update Cygwin binary
 set autoupdate=0

@@ -4,66 +4,84 @@
         Plug 'arnaud-lb/vim-php-namespace'
         Plug 'bling/vim-airline'
         Plug 'ervandew/supertab'
-        "Plug 'joonty/vim-phpqa'
-        "Plug 'joonty/vdebug'
-        "Plug 'joonty/vim-sauce'
-        "Plug 'joonty/vim-phpunitqf'
+        Plug 'joonty/vim-phpqa'
+        Plug 'joonty/vdebug'
+        Plug 'joonty/vim-phpunitqf'
         Plug 'kien/ctrlp.vim'
+		Plug 'mattn/emmet-vim'
         Plug 'scrooloose/nerdtree'
-        "Plug 'scrooloose/syntastic'
+        Plug 'scrooloose/syntastic'
+		Plug 'sjl/gundo.vim'
         Plug 'spf13/PIV'
         Plug 'sjl/gundo.vim'
         Plug 'tomasr/molokai'
+        Plug 'terryma/vim-multiple-cursors'
         Plug 'tpope/vim-eunuch'
         Plug 'tpope/vim-fugitive'
-        Plug 'tpope/vim-unimpaired'
+        "Plug 'tpope/vim-unimpaired'
     call plug#end()
 " }}}
-" Php Namespaces Plugin {{{
-    " adds the corresponding use statement for the class under the cursor
-    inoremap <leader>u <C-O>:call PhpInsertUse()<CR>
-    noremap <leader>u :call PhpInsertUse()<CR>
-    
-    " expands the class name under the cursor to its fully qualified name.
-    inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
-    noremap <Leader>e :call PhpExpandClass()<CR>
-" }}}
-" Gundo Pugin{{{
-    " toggle gundo
-    nnoremap <F4> :GundoToggle<CR>
-" }}}
-" NERTree Plugin {{{
-    " toggle nerdtree display
-    nnoremap <F3> :NERDTreeToggle<CR>
+" PLUGIN CONFIGURATION {{{
+	" emmet-vim {{{
+		let g:user_emmet_install_global = 0
+		autocmd FileType html,css,php EmmetInstall
+	" }}}
+	" gundo.vim {{{
+		" toggle gundo
+		nnoremap <F4> :GundoToggle<CR>
+	" }}}
+	" nerdtree {{{
+		" toggle nerdtree display
+		nnoremap <F3> :NERDTreeToggle<CR>
 
-    " open nerdtree with the current file selected
-    nnoremap ,t :NERDTreeFind<CR>
-" }}}
-" Fugitive Plugin {{{
-    " Fugitive maps
-    nnoremap <leader>gs :Gstatus<CR>
-    nnoremap <leader>gr :Gremove<CR>
-    nnoremap <leader>gl :Glog<CR>
-    nnoremap <leader>gb :Gblame<CR>
-    nnoremap <leader>gm :Gmove
-    nnoremap <leader>gp :Ggrep
-    nnoremap <leader>gR :Gread<CR>
-    nnoremap <leader>gg :Git
-    nnoremap <leader>gd :Gdiff<CR>
-" }}}
-" Vim-debug plugin {{{
-    " disable default mappings, and add some useful mappings
-    " have a lot of conflicts with other plugins
-    "let g:vim_debug_disable_mappings = 1
-    "map <F5> :Dbg over<CR>
-    "map <F6> :Dbg into<CR>
-    "map <F7> :Dbg out<CR>
-    "map <F8> :Dbg here<CR>
-    "map <F9> :Dbg break<CR>
-    "map <F10> :Dbg watch<CR>
-    "map <F11> :Dbg down<CR>
-    "map <F12> :Dbg up<CR>
-" }}}
+		" open nerdtree with the current file selected
+		nnoremap ,t :NERDTreeFind<CR>
+		
+		" Start NERDTree if no file is issued on start
+		autocmd vimenter * if !argc() | NERDTree | endif
+
+		" Close vim if only window is NERDTree
+		autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+	" }}}
+	" vdebug {{{
+		" disable default mappings, and add some useful mappings
+		" have a lot of conflicts with other plugins
+		"let g:vim_debug_disable_mappings = 1
+		"map <F5> :Dbg over<CR>
+		"map <F6> :Dbg into<CR>
+		"map <F7> :Dbg out<CR>
+		"map <F8> :Dbg here<CR>
+		"map <F9> :Dbg break<CR>
+		"map <F10> :Dbg watch<CR>
+		"map <F11> :Dbg down<CR>
+		"map <F12> :Dbg up<CR>
+	" }}}
+	" vim-eunuch {{{
+		" sudo save
+		cmap w!! w !sudo tee % >/dev/null
+	"}}}
+	" vim-fugitive {{{
+		" Fugitive maps
+		nnoremap <leader>gs :Gstatus<CR>
+		nnoremap <leader>gr :Gremove<CR>
+		nnoremap <leader>gl :Glog<CR>
+		nnoremap <leader>gb :Gblame<CR>
+		nnoremap <leader>gm :Gmove
+		nnoremap <leader>gp :Ggrep
+		nnoremap <leader>gR :Gread<CR>
+		nnoremap <leader>gg :Git
+		nnoremap <leader>gd :Gdiff<CR>
+	" }}}
+	" vim-php-namespace {{{
+		" adds the corresponding use statement for the class under the cursor
+		inoremap <leader>u <C-O>:call PhpInsertUse()<CR>
+		noremap <leader>u :call PhpInsertUse()<CR>
+		
+		" expands the class name under the cursor to its fully qualified name.
+		inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
+		noremap <Leader>e :call PhpExpandClass()<CR>
+	" }}}
+"}}}
 " Misc {{{
     " make vIM not vi comptible
     " '[no]comptible' '[no]cp'
@@ -93,9 +111,12 @@
     " Change Working Directory to that of the current file
     cmap cwd lcd %%
     cmap cd. lcd %%
-    
-    " sudo save
-    cmap w!! w !sudo tee % >/dev/null
+
+    " Swap ; and :  Convenient.
+    nnoremap ; :
+    nnoremap : ;
+    vnoremap ; :
+    vnoremap : ;
 " }}}
 " Color, Fonts, & Encoding {{{
     " backround style
@@ -288,6 +309,10 @@
     
     " toggle folds with spacebar
     nnoremap <SPACE> za
+
+    " Create Blank Newlines and stay in Normal mode
+    nnoremap <silent> zj o<Esc>
+    nnoremap <silent> zk O<Esc>
     
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
@@ -334,6 +359,10 @@
     " jump to matching bracket
     nnoremap <tab> %
     vnoremap <tab> %
+
+    " make it so that going to the next one in a search will center on the line it's found in.
+    map N Nzz
+    map n nzz
 " }}}
 " Buffer Navigation {{{
     " Ctrl n & p cycle between buffers
@@ -398,6 +427,10 @@
     " use <TAB> to move to matching bracket
     nnoremap <TAB> %
     vnoremap <TAB> %
+    
+    " remap jj to escape in insert mode
+    inoremap jj <Esc>
+    nnoremap JJJJ <Nop>
 " }}}
 " Backup & Files {{{
     " viminfo file - remember settings between sessions
@@ -461,19 +494,7 @@
     " Treat .json as javascript
     autocmd BufNewFile,BufRead *.json set ft=javascript
 
-    " Start NERDTree if no file is issued on start
-    autocmd vimenter * if !argc() | NERDTree | endif
-
-    " Close vim if only window is NERDTree
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
     " When editing a file, always jump to the last known cursor position.
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-    
-    " 2-space tab-width for HTML
-    autocmd FileType html set shiftwidth=2 tabstop=2 softtabstop=2
-    
-    " 2-space tab-width for CSS
-    autocmd FileType css set shiftwidth=2 tabstop=2 softtabstop=2
 " }}}
 " vim:fdm=marker:ts=4:sw=4:et

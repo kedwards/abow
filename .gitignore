@@ -9,4 +9,9 @@ home/.vagrant/*
 home/.vim/plugged/*
 home/.bash_history
 home/.viminfo
+<<<<<<< HEAD
 packages/*
+=======
+home/.s3cfg
+packages/*
+>>>>>>> Updated configuration and some vim additions
