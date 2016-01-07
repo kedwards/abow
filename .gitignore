@@ -9,4 +9,5 @@ home/.vagrant/*
 home/.vim/plugged/*
 home/.bash_history
 home/.viminfo
+home/.s3cfg
 packages/*

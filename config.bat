@@ -12,9 +12,10 @@ set arch=x86_64
 
 :: Package List
 set awscli_packages=binutils,libuuid,libuuid-devel,libssh2-devel,libssh2_1
+set php_packages=php,php-curl,php-fileinfo,php-gettext,php-mcrypt,php-opcache,php-phar,php-json
 set python_packages=python-crypto,python-paramiko,python-setuptools,python-ssl
 set core_packages=curl,gcc,gcc-core,gnupg,git,make,openssh,openssl-devel,python,screen,vim,vim-common,wget
-set packages=%core_packages%,%awscli_packages%
+set packages=%core_packages%,%awscli_packages%,%php_packages%
 
 :: Auto-update Cygwin binary
 set autoupdate=0
