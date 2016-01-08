@@ -123,7 +123,7 @@ fi
 #alias ll='ls -l'
 #alias la='ls -A'
 #alias l='ls -CF'
-alias lf='ls -laF'
+alias l='ls -laF --color=auto'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
