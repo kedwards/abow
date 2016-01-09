@@ -1,8 +1,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 DRIVE=C
 APP_DIR=/cygdrive/$drive/knc/app/PortableApps
 =======
+=======
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+
+>>>>>>> removed unused configurations
 DRIVE=D
 <<<<<<< HEAD
 APP_DIR=/cygdrive/$DRIVE/knc/app/PortableApps
@@ -30,19 +37,7 @@ xterm-256color)
     # composer
     export COMPOSER_HOME=~/.composer
 
-    # php
-    PHP_PATH=$APP_DIR/easy-php/binaries/php/php_runningversion
-
-    # vagrant
-    export VAGRANT_HOME=/knc/nix/home/.vagrant
-    export VAGRANT_DOTFILE_PATH=/knc/nix/home/.vagrant
-    VAGRANT_PATH=$APP_DIR/vagrant/bin
-
-    # virtual box
-    export VBOX_USER_HOME=$DRIVE:/knc/stor/vm/machines
-    VIRTUALBOX_PATH=$APP_DIR/virtualbox/app64
-    
-    PATH=$PHP_PATH:$VAGRANT_PATH:$VIRTUALBOX_PATH:$PATH
+    PATH=$PHP_PATH:$VAGRANT_PATH:$PATH
 
     USCREEN=/tmp/uscreens
     UUSCREEN=/tmp/uscreens/S-$USERNAME
@@ -68,5 +63,9 @@ fi
 =======
     fi
     ;;
+<<<<<<< HEAD
  esac
 >>>>>>> Adding GnuPG, Bash, and SSH configurations
+=======
+esac
+>>>>>>> removed unused configurations
