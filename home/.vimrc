@@ -42,13 +42,6 @@ call plug#end()
 	    " Close vim if only window is NERDTree
 	    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     " }}}
-    " syntastic {{{
-
-        let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
-        let g:syntastic_check_on_open = 1
-        let g:syntastic_check_on_wq = 0 
-    " }}}
     " vdebug {{{
 	    " disable default mappings, and add some useful mappings
 	    " have a lot of conflicts with other plugins
