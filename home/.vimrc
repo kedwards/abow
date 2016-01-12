@@ -5,6 +5,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'bling/vim-airline'
     Plug 'chrisbra/NrrwRgn'
     Plug 'ervandew/supertab'
+    Plug 'jeetsukumaran/vim-buffergator'
     "Plug 'joonty/vim-phpqa'
     "Plug 'joonty/vdebug'
     "Plug 'joonty/vim-phpunitqf'
@@ -156,7 +157,7 @@ call plug#end()
     nnoremap <leader><TAB> :set list!<CR>
 
     " ,q - close the current buffer
-    nnoremap <leader>q :bufferClose<CR>
+    nnoremap <leader>q :bw<CR>
 
     " ,Q -close the current window
     nnoremap <leader>Q <C-w>c
