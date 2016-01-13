@@ -2,16 +2,21 @@ bin/*.exe
 cygwin-*
 home/.aws/credentials
 home/.cache/*
-home/.ssh/agents/*
-home/.ssh/identities/*
+home/.ssh/*.pem
+home/.ssh/id_rsa
 home/.bash_history
 home/.vagrant/*
 home/.vim/plugged/*
 home/.bash_history
+home/.s3cfg
 home/.viminfo
+<<<<<<< HEAD
 <<<<<<< HEAD
 packages/*
 =======
 home/.s3cfg
 packages/*
 >>>>>>> Updated configuration and some vim additions
+=======
+packages/*
+>>>>>>> update of required binaries and some more cleanup

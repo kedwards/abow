@@ -1,25 +1,37 @@
 ﻿" KnC vIM configuration
+"{{{ onLoad
+let installPlugins = 0
+if !filereadable($HOME . "/.vim/autoload/plug.vim")
+    echo "~≥ Installing vim-plug \n"
+    silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    let installPlugins = 1
+endif
+"}}}
 " vim-plug {{{
 call plug#begin('~/.vim/plugged')
-    "Plug 'arnaud-lb/vim-php-namespace'
+    "Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
     Plug 'bling/vim-airline'
     Plug 'chrisbra/NrrwRgn'
     Plug 'ervandew/supertab'
     Plug 'jeetsukumaran/vim-buffergator'
-    "Plug 'joonty/vim-phpqa'
-    "Plug 'joonty/vdebug'
-    "Plug 'joonty/vim-phpunitqf'
+    "Plug 'joonty/vim-phpqa', { 'for': 'php' }
+    "Plug 'joonty/vdebug', { 'for': 'php' }
+    "Plug 'joonty/vim-phpunitqf', { 'for': 'php' }
     Plug 'ctrlpvim/ctrlp.vim'
 	Plug 'mattn/emmet-vim'
+    Plug 'othree/html5.vim', { 'for': 'html' }
     Plug 'scrooloose/nerdtree'
     Plug 'scrooloose/syntastic'
 	Plug 'sjl/gundo.vim'
-    "Plug 'spf13/PIV'
+    "Plug 'spf13/PIV', { 'for': 'php' }
     Plug 'terryma/vim-multiple-cursors'
     Plug 'tomasr/molokai'
     Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-unimpaired'
+    "Plug 'wdalmut/vim-phpunit', { 'for': 'php' }
+    "Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+    "Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 call plug#end()
 " Plugin Configurations {{{
     " vim-airline {{{
@@ -43,10 +55,21 @@ call plug#end()
 	    " Close vim if only window is NERDTree
 	    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
     " }}}
+    " syntastic {{{
+        "let g:syntastic_check_on_open=1
+        "let g:syntastic_enable_signs=1
+        "let g:syntastic_enable_balloons = 1
+        "let g:syntastic_auto_loc_list=1
+        "let g:syntastic_mode_map = { 'mode': 'active',
+        "            \                   'active_filetypes' : [],
+        "            \                   'passive_filetypes' : ['php'] }
+    "}}}
     " vdebug {{{
 	    " disable default mappings, and add some useful mappings
 	    " have a lot of conflicts with other plugins
 	    "let g:vim_debug_disable_mappings = 1
+        let g:vdebug_options = {"on_close":"detach"}
+        let g:vdebug_features = {'max_depth':3}
 	    "map <F5> :Dbg over<CR>
 	    "map <F6> :Dbg into<CR>
 	    "map <F7> :Dbg out<CR>
@@ -58,15 +81,21 @@ call plug#end()
     " }}}
     " vim-php-namespace {{{
 	    " adds the corresponding use statement for the class under the cursor
-	    inoremap <leader>u <C-O>:call PhpInsertUse()<CR>
-	    noremap <leader>u :call PhpInsertUse()<CR>
+	    "inoremap <leader>u <C-O>:call PhpInsertUse()<CR>
+	    "noremap <leader>u :call PhpInsertUse()<CR>
 
 	    " expands the class name under the cursor to its fully qualified name.
-	    inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
-	    noremap <Leader>e :call PhpExpandClass()<CR>
+	    :inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
+	    :noremap <Leader>e :call PhpExpandClass()<CR>
     " }}}
 " }}}
 " }}}
+"{{{ Plugin Install
+if installPlugins == 1
+    echo "~> Installing plugs\n"
+    :PlugInstall
+endif
+"}}}
 " General {{{
     " make vIM not vi comptible
     " '[no]comptible' '[no]cp'
@@ -456,19 +485,18 @@ call plug#end()
     endif
 " }}}
 " Auto Commands {{{
-    " Auto source .vimrc on save
-    autocmd bufwritepost .vimrc source $MYVIMRC
+    if has('autocmd')
+        " Auto source .vimrc on save
+        autocmd bufwritepost .vimrc source $MYVIMRC
 
-    " Auto update file if externally changed
-    autocmd CursorHold * checktime
+        " Auto update file if externally changed
+        autocmd CursorHold * checktime
 
-    " Treat phpt, phtml, phps files as PHP
-    autocmd BufNewFile,BufRead *.{phpt,phtml,phps} set ft=php
+        " Treat .json as javascript
+        autocmd BufNewFile,BufRead *.json set ft=javascript
 
-    " Treat .json as javascript
-    autocmd BufNewFile,BufRead *.json set ft=javascript
-
-    " When editing a file, always jump to the last known cursor position.
-    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+        " When editing a file, always jump to the last known cursor position.
+        autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    endif
 " }}}
 " vim:fdm=marker:ts=4:sw=4:et
