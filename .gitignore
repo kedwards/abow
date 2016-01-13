@@ -2,12 +2,12 @@ bin/*.exe
 cygwin-*
 home/.aws/credentials
 home/.cache/*
-home/.ssh/agents/*
-home/.ssh/identities/*
+home/.ssh/*.pem
+home/.ssh/id_rsa
 home/.bash_history
 home/.vagrant/*
 home/.vim/plugged/*
 home/.bash_history
-home/.viminfo
 home/.s3cfg
+home/.viminfo
 packages/*
