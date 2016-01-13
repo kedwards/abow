@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 bin/*.exe
 cygwin-*
 home/.aws/credentials
@@ -20,3 +21,20 @@ packages/*
 =======
 packages/*
 >>>>>>> update of required binaries and some more cleanup
+=======
+!bin/curl-7.46.0.exe
+!bin/wget-1.17.1.exe
+bin/*.exe
+cygwin-*
+home/.aws/credentials
+home/.cache/*
+home/.ssh/*.pem
+home/.ssh/id_rsa
+home/.bash_history
+home/.vagrant/*
+home/.vim/plugged/*
+home/.bash_history
+home/.s3cfg
+home/.viminfo
+packages/*
+>>>>>>> updated binaries
