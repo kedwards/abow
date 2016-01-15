@@ -1,4 +1,5 @@
 ﻿" KnC vIM configuration
+" vim-plug {{{
 "{{{ onLoad
 let installPlugins = 0
 if !filereadable($HOME . "/.vim/autoload/plug.vim")
@@ -7,22 +8,29 @@ if !filereadable($HOME . "/.vim/autoload/plug.vim")
     let installPlugins = 1
 endif
 "}}}
-" vim-plug {{{
+"{{{ Plugin Inst
+if installPlugins == 1
+    echo "~> Installing plugs\n"
+    :PlugInstall
+endif
+"}}}
+"{{{ Plugins
 call plug#begin('~/.vim/plugged')
     "Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
     Plug 'bling/vim-airline'
     Plug 'chrisbra/NrrwRgn'
     Plug 'ervandew/supertab'
+    Plug 'jamessan/vim-gnupg'
     Plug 'jeetsukumaran/vim-buffergator'
     "Plug 'joonty/vim-phpqa', { 'for': 'php' }
     "Plug 'joonty/vdebug', { 'for': 'php' }
     "Plug 'joonty/vim-phpunitqf', { 'for': 'php' }
     Plug 'ctrlpvim/ctrlp.vim'
-	Plug 'mattn/emmet-vim'
+	Plug 'mattn/emmet-vim', { 'for' : ['css', 'html', 'php'] }
     Plug 'othree/html5.vim', { 'for': 'html' }
-    Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree', { 'on' : 'NERDTreeToggle' }
     Plug 'scrooloose/syntastic'
-	Plug 'sjl/gundo.vim'
+	Plug 'sjl/gundo.vim', { 'on' : 'GundoToggle' }
     "Plug 'spf13/PIV', { 'for': 'php' }
     Plug 'terryma/vim-multiple-cursors'
     Plug 'tomasr/molokai'
@@ -33,13 +41,10 @@ call plug#begin('~/.vim/plugged')
     "Plug 'StanAngeloff/php.vim', { 'for': 'php' }
     "Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 call plug#end()
+"}}}
 " Plugin Configurations {{{
     " vim-airline {{{
         let g:airline#extensions#tabline#enabled = 1
-    " }}}
-    " emmet-vim {{{
-	    let g:user_emmet_install_global = 0
-	    autocmd FileType html,css,php EmmetInstall
     " }}}
     " gundo.vim {{{
 	    " toggle gundo
@@ -50,7 +55,7 @@ call plug#end()
 	    nnoremap <F3> :NERDTreeToggle<CR>
 
 	    " Start NERDTree if no file is issued on start
-	    autocmd vimenter * if !argc() | NERDTree | endif
+	    "autocmd vimenter * if !argc() | NERDTree | endif
 
 	    " Close vim if only window is NERDTree
 	    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -90,12 +95,6 @@ call plug#end()
     " }}}
 " }}}
 " }}}
-"{{{ Plugin Install
-if installPlugins == 1
-    echo "~> Installing plugs\n"
-    :PlugInstall
-endif
-"}}}
 " General {{{
     " make vIM not vi comptible
     " '[no]comptible' '[no]cp'
@@ -167,7 +166,7 @@ endif
 
     " ,e[w|s|v|t] -
     cnoremap %% <C-R>=fnameescape(expand('%:p:h')).'/'<CR>
-    nnoremap <leader>ew :e %%
+    nnorema <leader>ew :e %%
     nnoremap <leader>es :sp %%
     nnoremap <leader>ev :vsp %%
     nnoremap <leader>et :tabe %%
