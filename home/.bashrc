@@ -135,7 +135,7 @@ prox()
              cygstart /cygdrive/d/knc/PortableApps/cntlm/cntlm.exe -vc /cygdrive/d/knc/PortableApps/cntlm/cntlm.ini
 		else
 			sed -i 's|proxy = http://localhost:3128|#proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
-            tskill cntlm
+            cygstart tskill cntlm
 		fi
 	fi
 }
@@ -148,7 +148,7 @@ aria2()
     if [ "$1" == "on" ]; then
 		cygstart /cygdrive/d/knc/PortableApps/aria2/aria2c.exe --enable-rpc --rpc-listen-all
 	elif [ "$1" == "off" ]; then
-		tskill aria2c
+		cygstart tskill aria2c
 	fi
 }
 >>>>>>> Added aria2 configuration
