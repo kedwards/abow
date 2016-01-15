@@ -16,8 +16,8 @@ export VIRTUALBOX_PATH=$APP_DIR/virtualbox/app64
 export VBOX_USER_HOME=$STOR/vm/machines
 
 
-export VAGRANT_HOME=/knc/nix/home/.vagrant
-#export VAGRANT_DOTFILE_PATH=/knc/nix/home/.vagrant
+export VAGRANT_HOME=/knc/stor/.vagrant.d
+#export VAGRANT_DOTFILE_PATH=/knc/stor/.vagrant.d
 export VAGRANT_PATH=$APP_DIR/vagrant/bin
 
 export PATH=$VAGRANT_PATH:$VIRTUALBOX_PATH:/usr/local/bin:/usr/bin
