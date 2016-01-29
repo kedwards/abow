@@ -13,6 +13,7 @@ APP_DIR=/cygdrive/$drive/knc/app/PortableApps
 DRIVE=D
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 APP_DIR=/cygdrive/$DRIVE/knc/app/PortableApps
 >>>>>>> removed vim plugins
 =======
@@ -27,6 +28,9 @@ fi
 >>>>>>> Adding GnuPG, Bash, and SSH configurations
 =======
 APP_DIR=/cygdrive/$DRIVE/knc/PortableApps
+=======
+APP_DIR=/cygdrive/$DRIVE/PortableApps
+>>>>>>> fixed links to PortableApps
 STOR=/cygdrive/$DRIVE/knc/stor
 >>>>>>> Updates
 
