@@ -3,6 +3,8 @@
 bin/*.exe
 cygwin-*
 home/.aws/credentials
+home/.aws/shell/cache
+home/.aws/shell/*.docs
 home/.cache/*
 home/.ssh/*.pem
 home/.ssh/id_rsa

@@ -3,7 +3,7 @@
 # exists.
 
 DRIVE=D
-APP_DIR=/cygdrive/$DRIVE/knc/PortableApps
+APP_DIR=/cygdrive/$DRIVE/PortableApps
 STOR=/cygdrive/$DRIVE/knc/stor
 
 if [ -f ~/.bashrc ]; then

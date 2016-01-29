@@ -119,7 +119,7 @@ prox()
 		
 		if [ "$ACTION" == "start" ]; then
 			sed -i 's|#proxy = http://localhost:3128|proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
-             cygstart /cygdrive/d/knc/PortableApps/cntlm/cntlm.exe -vc /cygdrive/d/knc/PortableApps/cntlm/cntlm.ini
+             cygstart /cygdrive/d/PortableApps/cntlm/cntlm.exe -vc /cygdrive/d/PortableApps/cntlm/cntlm.ini
 		else
 			sed -i 's|proxy = http://localhost:3128|#proxy = http://localhost:3128|' ~/.curlrc ~/.gitconfig
             cygstart tskill cntlm
@@ -131,7 +131,7 @@ prox()
 aria2()
 {
     if [ "$1" == "on" ]; then
-		cygstart /cygdrive/d/knc/PortableApps/aria2/aria2c.exe --enable-rpc --rpc-listen-all
+		cygstart /cygdrive/d/PortableApps/aria2/aria2c.exe --enable-rpc --rpc-listen-all
 	elif [ "$1" == "off" ]; then
 		cygstart tskill aria2c
 	fi
