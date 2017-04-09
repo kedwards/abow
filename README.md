@@ -1,6 +1,6 @@
-KnC Linux
-=========
+ABOW by LivITy Linux
+====================
 
-Created by K&C Edwards Consulting Ltd.
+Created by LivITy Consulting Ltd.
 
-A script to assist in building a linux toolset on windows.
+A script to assist in building a linux toolset on windows using Babun with Ansible installed.

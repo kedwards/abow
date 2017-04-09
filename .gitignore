@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 bin/*.exe
 cygwin-*
 home/.aws/credentials
@@ -40,3 +41,5 @@ home/.s3cfg
 home/.viminfo
 packages/*
 >>>>>>> updated binaries
+=======
+>>>>>>> Changed from batch file to powershell script, now uses Babun (cygwin) and installs Ansible.
