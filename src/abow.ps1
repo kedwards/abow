@@ -1,37 +1,51 @@
 #
-# Name  :   MRM Ansible
+# Name  :   abow
 # Author:   edwardk3 <kevin.edwards@enbridge.com>
+#       :   kedwards <kedwards@livity.consulting>
 # Desc  :   Downloads, installs, and configures a linux enviornment for Ansible
 #
 Clear-Host
 
-Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
-Set-Variable -Name 'linux_home' -Value "$HOME\linux"
-Set-Variable -Name 'babun_version' -Value '1.2.0'
-Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
+Set-Variable -Name 'install_path' -Value "linux2"
 
-If ( Test-Path $wasp) {
+Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
+Set-Variable -Name 'abow_home' -Value "$HOME\$install_path"
+Set-Variable -Name 'babun_version' -Value '1.2.0'
+Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download'
+Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
+Set-Variable -Name 'cmdr_src' -Value "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip"
+Set-Variable -Name 'mrm_build' -Value $True
+Set-Variable -Name 'mrm_src' -Value 'http://bit.ly/2oj7uSh' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
+Set-Variable -Name 'error_install_path' -Value 'Error: {0} path exists, remove this path or use the -install_path command line argument to install to a new directory.'
+
+If (Test-Path $wasp) {
     Import-Module $wasp
-} Else
-{
-    Write-Host "Error: WASP.dll not found or cannot be loaded..Exiting"
+} Else {
+    Write-Host "\nError: WASP.dll not found or cannot be loaded.\n"
+    Pause
     Exit
+}
+
+If (Test-Path $abow_home) {
+    Write-Host ("$error_install_path" -f $abow_home)
+	#Pause
+    #Exit
 }
 
 $o_babun = New-Object –TypeName PSObject –Prop (@{
     'Name' = 'Babun';
     'Ver' = $babun_version;
-    'Src' = 'http://projects.reficio.org/babun/download';
-    'Dest' = "$linux_home\babun.zip";
-    'Path' = "$linux_home\babun"
+    'Src' = $babun_src;
+    'Dest' = "$abow_home\babun.zip";
+    'Path' = "$abow_home\babun"
 })
 
 $o_cmdr = New-Object –TypeName PSObject –Prop (@{
     'Name' = 'Cmdr';
     'Ver' = $cmdr_version;
-    'Src' = "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip";
-    'Dest' = "$linux_home\cmdr.zip";
-    'Path' = $linux_home
+    'Src' = $cmdr_src;
+    'Dest' = "$abow_home\cmdr.zip";
+    'Path' = $abow_home
 })
 
 $deps = @(
@@ -43,11 +57,11 @@ function Do-Unzip
 {
     param([Parameter(Mandatory=$true)][object]$dep)
 
-    Write-Host -NoNewline Unzipping $dep.Dest..
+    Write-Host -NoNewline ("Unzipping {0}.." -f $dep.Dest)
 
     $shell = new-object -com shell.application
     $zip = $shell.namespace($dep.Dest)
-    $shell.namespace($linux_home).Copyhere($zip.items(), 0x14) # 0x4 = hides dialog box, 0x10 = overwrite,  0x14 = hide and overwrite
+    $shell.namespace($abow_home).Copyhere($zip.items(), 0x14) # 0x4 = hides dialog box, 0x10 = overwrite,  0x14 = hide and overwrite
 
     Write-Host ".ok"
 }
@@ -56,7 +70,7 @@ function Do-Get
 {
     param([Parameter(Mandatory=$true)][object]$dep)
 
-    Write-Host -NoNewline Retrieving $dep.Name..
+    Write-Host -NoNewline ("Retrieving {0}.." -f $dep.Name) 
 
     If (!( Test-Path $dep.Dest)) {
         $webc = New-Object System.Net.WebClient
@@ -69,7 +83,8 @@ function Do-Get
 function Do-Main
 {
     param(
-        [Parameter(Mandatory=$false)][string]$root = $linux_home,
+        [Parameter(Mandatory=$false)][string]$root = $abow_home,
+		[Parameter(Mandatory=$false)][bool]$mrm_build = $mrm_build,
         [Parameter(Mandatory=$false)][array]$comps = $deps
     )
 
@@ -81,17 +96,21 @@ function Do-Main
         Do-Unzip $dep
     }
 
-    Start-Process $linux_home\babun-$babun_version\install.bat -ArgumentList '/t', "$linux_home"
+    Start-Process $abow_home\babun-$babun_version\install.bat -ArgumentList '/t', "$abow_home"
 
-    while (!(Select-Window mintty | Select-Object -first 1).ProcessId)
+    while (!($process = Select-Window mintty | Select-Object -first 1).ProcessId)
     {
         Start-Sleep -s 10
     }
-
-    Select-Window mintty | Set-WindowPosition -Minimize
-    Select-Window mintty | Send-Keys 'zsh <+9curl -sL http://bit.ly/2oj7uSh+0' # retrieve and run install.sh (https://github.com/kedwards/ansible-babun-bootstrap)
-    Start-Sleep -m 500
-    Select-Window mintty | Send-Keys "{ENTER}"
+	
+	if ($mrm_build) {
+		$process = Select-Window mintty
+        $process | Send-Keys "zsh <+9curl -sL ${mrm_src}+0" 
+        Start-Sleep -m 500
+        $process | Send-Keys "{ENTER}"
+        Start-Sleep -s 5
+        $process | Set-WindowPosition -Minimize
+	}
 }
 
 Do-Main
