@@ -4,19 +4,18 @@
 #       :   kedwards <kedwards@livity.consulting>
 # Desc  :   Downloads, installs, and configures a linux enviornment for Ansible
 #
-Clear-Host
+#param([bool]$mrm_build = $True)
 
-Set-Variable -Name 'install_path' -Value "linux2"
-
+Set-Variable -Name 'install_path' -Value "linux"
 Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
 Set-Variable -Name 'abow_home' -Value "$HOME\$install_path"
 Set-Variable -Name 'babun_version' -Value '1.2.0'
-Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download'
+Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download' # "https://github.com/babun/babun/archive/v1.2.0.zip"
 Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
-Set-Variable -Name 'cmdr_src' -Value "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip"
-Set-Variable -Name 'mrm_build' -Value $True
-Set-Variable -Name 'mrm_src' -Value 'http://bit.ly/2oj7uSh' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
+Set-Variable -Name 'abb_src' -Value 'http://bit.ly/2rXdMZs' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
 Set-Variable -Name 'error_install_path' -Value 'Error: {0} path exists, remove this path or use the -install_path command line argument to install to a new directory.'
+
+Clear-Host
 
 If (Test-Path $wasp) {
     Import-Module $wasp
@@ -26,11 +25,11 @@ If (Test-Path $wasp) {
     Exit
 }
 
-If (Test-Path $abow_home) {
-    Write-Host ("$error_install_path" -f $abow_home)
-	#Pause
-    #Exit
-}
+#If (Test-Path $abow_home) {
+#    Write-Host ("$error_install_path" -f $abow_home)#
+#	 Pause
+#    Exit
+#}
 
 $o_babun = New-Object –TypeName PSObject –Prop (@{
     'Name' = 'Babun';
@@ -90,27 +89,45 @@ function Do-Main
 
     if (!(Test-Path $root)) { New-Item -ItemType Directory -Force -Path $root > $null }
 
-    foreach ($dep in $comps)
+    if (!(Test-Path $abow_home\.babun))
     {
-        Do-Get $dep
-        Do-Unzip $dep
-    }
+        foreach ($dep in $comps)
+        {
+            Do-Get $dep
+            Do-Unzip $dep
+            Remove-Item $dep.Dest
+        }
+    
+        Start-Process $abow_home\babun-$babun_version\install.bat -ArgumentList '/t', "$abow_home"
+    
+        while (!($process = Select-Window mintty | Select-Object -first 1).ProcessId)
+        {
+	        Start-Sleep -s 10
+        }
+       
+        process = Select-Window mintty
+	    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
+	    Start-Sleep -m 500
+	    $process | Send-Keys "{ENTER}"
+	    Start-Sleep -s 5
+	    $process | Set-WindowPosition -Minimize
 
-    Start-Process $abow_home\babun-$babun_version\install.bat -ArgumentList '/t', "$abow_home"
+        Remove-Item $abow_home\babun-$babun_version -recurse
+    } else {
+        Start-Process $abow_home\.babun\babun.bat
 
-    while (!($process = Select-Window mintty | Select-Object -first 1).ProcessId)
-    {
-        Start-Sleep -s 10
+        while (!($process = Select-Window mintty | Select-Object -first 1).ProcessId)
+        {
+	        Start-Sleep -s 10
+        }
+       
+        process = Select-Window mintty
+	    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
+	    Start-Sleep -m 500
+	    $process | Send-Keys "{ENTER}"
+	    Start-Sleep -s 5
+	    $process | Set-WindowPosition -Minimize
     }
-	
-	if ($mrm_build) {
-		$process = Select-Window mintty
-        $process | Send-Keys "zsh <+9curl -sL ${mrm_src}+0" 
-        Start-Sleep -m 500
-        $process | Send-Keys "{ENTER}"
-        Start-Sleep -s 5
-        $process | Set-WindowPosition -Minimize
-	}
 }
 
 Do-Main
