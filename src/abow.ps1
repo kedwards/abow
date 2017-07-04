@@ -1,17 +1,16 @@
+param([String]$install_path = "linux")
 #
 # Name  :   abow
 # Author:   edwardk3 <kevin.edwards@enbridge.com>
 #       :   kedwards <kedwards@livity.consulting>
 # Desc  :   Downloads, installs, and configures a linux enviornment for Ansible
 #
-#param([bool]$mrm_build = $True)
-
-Set-Variable -Name 'install_path' -Value "linux"
 Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
 Set-Variable -Name 'abow_home' -Value "$HOME\$install_path"
 Set-Variable -Name 'babun_version' -Value '1.2.0'
 Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download' # "https://github.com/babun/babun/archive/v1.2.0.zip"
 Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
+Set-Variable -Name 'cmdr_src' -Value "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip"
 Set-Variable -Name 'abb_src' -Value 'http://bit.ly/2rXdMZs' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
 Set-Variable -Name 'error_install_path' -Value 'Error: {0} path exists, remove this path or use the -install_path command line argument to install to a new directory.'
 
@@ -25,11 +24,11 @@ If (Test-Path $wasp) {
     Exit
 }
 
-#If (Test-Path $abow_home) {
-#    Write-Host ("$error_install_path" -f $abow_home)#
-#	 Pause
-#    Exit
-#}
+If (Test-Path $abow_home) {
+    Write-Host ("$error_install_path" -f $abow_home)
+    Pause
+    Exit
+}
 
 $o_babun = New-Object –TypeName PSObject –Prop (@{
     'Name' = 'Babun';
@@ -83,7 +82,6 @@ function Do-Main
 {
     param(
         [Parameter(Mandatory=$false)][string]$root = $abow_home,
-		[Parameter(Mandatory=$false)][bool]$mrm_build = $mrm_build,
         [Parameter(Mandatory=$false)][array]$comps = $deps
     )
 
@@ -95,6 +93,7 @@ function Do-Main
         {
             Do-Get $dep
             Do-Unzip $dep
+            Start-Sleep -s 3
             Remove-Item $dep.Dest
         }
     
