@@ -78,6 +78,16 @@ function Do-Get
     Write-Host ".ok"
 }
 
+function Do-Abb
+{
+    process = Select-Window mintty
+	    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
+	    Start-Sleep -m 500
+	    $process | Send-Keys "{ENTER}"
+	    Start-Sleep -s 5
+	    $process | Set-WindowPosition -Minimize
+}
+
 function Do-Main
 {
     param(
@@ -104,12 +114,7 @@ function Do-Main
 	        Start-Sleep -s 10
         }
        
-        process = Select-Window mintty
-	    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
-	    Start-Sleep -m 500
-	    $process | Send-Keys "{ENTER}"
-	    Start-Sleep -s 5
-	    $process | Set-WindowPosition -Minimize
+        Do-Abb
 
         Remove-Item $abow_home\babun-$babun_version -recurse
     } else {
@@ -120,12 +125,7 @@ function Do-Main
 	        Start-Sleep -s 10
         }
        
-        process = Select-Window mintty
-	    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
-	    Start-Sleep -m 500
-	    $process | Send-Keys "{ENTER}"
-	    Start-Sleep -s 5
-	    $process | Set-WindowPosition -Minimize
+        Do-Abb
     }
 }
 
