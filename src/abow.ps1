@@ -6,7 +6,7 @@ param([String]$install_path = "linux")
 # Desc  :   Downloads, installs, and configures a linux enviornment for Ansible
 #
 Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
-Set-Variable -Name 'abow_home' -Value "$HOME\$install_path"
+Set-Variable -Name 'abow_home' -Value "C:\Users\$env:UserName\$install_path"
 Set-Variable -Name 'babun_version' -Value '1.2.0'
 Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download' # "https://github.com/babun/babun/archive/v1.2.0.zip"
 Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
