@@ -80,12 +80,12 @@ function Do-Get
 
 function Do-Abb
 {
-    process = Select-Window mintty
-	    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
-	    Start-Sleep -m 500
-	    $process | Send-Keys "{ENTER}"
-	    Start-Sleep -s 5
-	    $process | Set-WindowPosition -Minimize
+    $process = Select-Window mintty
+    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
+    Start-Sleep -m 500
+    $process | Send-Keys "{ENTER}"
+    Start-Sleep -s 5
+    $process | Set-WindowPosition -Minimize
 }
 
 function Do-Main
