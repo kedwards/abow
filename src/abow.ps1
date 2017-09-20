@@ -1,4 +1,8 @@
-param([String]$install_path = "linux")
+param(
+    [String]$install_path = "linux",
+    [Int]$ignore_exist = 0
+)
+
 #
 # Name  :   abow
 # Author:   edwardk3 <kevin.edwards@enbridge.com>
@@ -24,7 +28,7 @@ If (Test-Path $wasp) {
     Exit
 }
 
-If (Test-Path $abow_home) {
+If ((Test-Path $abow_home) -and ($ignore_exist -eq 0)) {
     Write-Host ("$error_install_path" -f $abow_home)
     Pause
     Exit
