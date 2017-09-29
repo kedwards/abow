@@ -1,7 +1,7 @@
 param(
     [String]$install_path = "linux",
-    [Int]$ignore_exist = 0
-    [Int]$ignore_abb = 0
+    [switch]$ignore_exist = $false,
+    [switch]$ignore_abb = $false
 )
 
 #
@@ -17,7 +17,7 @@ Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/downloa
 Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
 Set-Variable -Name 'cmdr_src' -Value "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip"
 Set-Variable -Name 'abb_src' -Value 'http://bit.ly/mrm-abb-2-install' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
-Set-Variable -Name 'error_install_path' -Value 'Error: {0} path exists, remove this path or use the -install_path command line argument to install to a new directory.'
+Set-Variable -Name 'error_install_path' -Value "Error: {0} path exists:`n  - Remove this path or use the -install_path command line argument to install to a new directory.`n  - Alternatively use the -ignore_exist command line argument to force install (Not Recommended.)"
 
 Clear-Host
 
@@ -29,13 +29,13 @@ If (Test-Path $wasp) {
     Exit
 }
 
-If ((Test-Path $abow_home) -and ($ignore_exist -eq 0)) {
+If ((Test-Path $abow_home) -and (!($ignore_exist))) {
     Write-Host ("$error_install_path" -f $abow_home)
     Pause
     Exit
 }
 
-$o_babun = New-Object �TypeName PSObject �Prop (@{
+$o_babun = New-Object -TypeName PSObject -Prop (@{
     'Name' = 'Babun';
     'Ver' = $babun_version;
     'Src' = $babun_src;
@@ -43,7 +43,7 @@ $o_babun = New-Object �TypeName PSObject �Prop (@{
     'Path' = "$abow_home\babun"
 })
 
-$o_cmdr = New-Object �TypeName PSObject �Prop (@{
+$o_cmdr = New-Object -TypeName PSObject -Prop (@{
     'Name' = 'Cmdr';
     'Ver' = $cmdr_version;
     'Src' = $cmdr_src;
@@ -119,7 +119,7 @@ function Do-Main
 	         Start-Sleep -s 10
         }
 
-        if ($ignore_abb -neq 0)
+        if (!($ignore_abb))
         {
             Do-Abb
         }
