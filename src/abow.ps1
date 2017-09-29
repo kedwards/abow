@@ -1,6 +1,7 @@
 param(
     [String]$install_path = "linux",
     [Int]$ignore_exist = 0
+    [Int]$ignore_abb = 0
 )
 
 #
@@ -15,7 +16,7 @@ Set-Variable -Name 'babun_version' -Value '1.2.0'
 Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download' # "https://github.com/babun/babun/archive/v1.2.0.zip"
 Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
 Set-Variable -Name 'cmdr_src' -Value "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip"
-Set-Variable -Name 'abb_src' -Value 'http://bit.ly/2rXdMZs' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
+Set-Variable -Name 'abb_src' -Value 'http://bit.ly/mrm-abb-2-install' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
 Set-Variable -Name 'error_install_path' -Value 'Error: {0} path exists, remove this path or use the -install_path command line argument to install to a new directory.'
 
 Clear-Host
@@ -34,7 +35,7 @@ If ((Test-Path $abow_home) -and ($ignore_exist -eq 0)) {
     Exit
 }
 
-$o_babun = New-Object –TypeName PSObject –Prop (@{
+$o_babun = New-Object ï¿½TypeName PSObject ï¿½Prop (@{
     'Name' = 'Babun';
     'Ver' = $babun_version;
     'Src' = $babun_src;
@@ -42,7 +43,7 @@ $o_babun = New-Object –TypeName PSObject –Prop (@{
     'Path' = "$abow_home\babun"
 })
 
-$o_cmdr = New-Object –TypeName PSObject –Prop (@{
+$o_cmdr = New-Object ï¿½TypeName PSObject ï¿½Prop (@{
     'Name' = 'Cmdr';
     'Ver' = $cmdr_version;
     'Src' = $cmdr_src;
@@ -72,7 +73,7 @@ function Do-Get
 {
     param([Parameter(Mandatory=$true)][object]$dep)
 
-    Write-Host -NoNewline ("Retrieving {0}.." -f $dep.Name) 
+    Write-Host -NoNewline ("Retrieving {0}.." -f $dep.Name)
 
     If (!( Test-Path $dep.Dest)) {
         $webc = New-Object System.Net.WebClient
@@ -85,7 +86,7 @@ function Do-Get
 function Do-Abb
 {
     $process = Select-Window mintty
-    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0" 
+    $process | Send-Keys "zsh <+9curl -sL ${abb_src}+0"
     Start-Sleep -m 500
     $process | Send-Keys "{ENTER}"
     Start-Sleep -s 5
@@ -110,15 +111,18 @@ function Do-Main
             Start-Sleep -s 3
             Remove-Item $dep.Dest
         }
-    
+
         Start-Process $abow_home\babun-$babun_version\install.bat -ArgumentList '/t', "$abow_home"
-    
+
         while (!($process = Select-Window mintty | Select-Object -first 1).ProcessId)
         {
-	        Start-Sleep -s 10
+	         Start-Sleep -s 10
         }
-       
-        Do-Abb
+
+        if ($ignore_abb -neq 0)
+        {
+            Do-Abb
+        }
 
         Remove-Item $abow_home\babun-$babun_version -recurse
     } else {
@@ -128,7 +132,7 @@ function Do-Main
         {
 	        Start-Sleep -s 10
         }
-       
+
         Do-Abb
     }
 }
