@@ -4,11 +4,17 @@ param(
     [switch]$ignore_abb = $false
 )
 
+if(!$PSScriptRoot){ $PSScriptRoot = $PSScriptRoot = Split-Path $script:MyInvocation.MyCommand.Path }
+
 #
 # Name  :   abow
 # Author:   edwardk3 <kevin.edwards@enbridge.com>
 #       :   kedwards <kedwards@livity.consulting>
 # Desc  :   Downloads, installs, and configures a linux enviornment for Ansible
+#
+# ps.exe < 3.* requires:
+#   $PSScriptRoot = Split-Path MyInvocation.MyCommand.Path -Parent
+#   $PSScriptRoot = Split-Path $script:MyInvocation.MyCommand.Path
 #
 Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
 Set-Variable -Name 'abow_home' -Value "C:\Users\$env:UserName\$install_path"
