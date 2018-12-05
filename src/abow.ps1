@@ -4,33 +4,48 @@ param(
     [switch]$ignore_abb = $false
 )
 
-if(!$PSScriptRoot){ $PSScriptRoot = $PSScriptRoot = Split-Path $script:MyInvocation.MyCommand.Path }
-
 #
 # Name  :   abow
 # Author:   edwardk3 <kevin.edwards@enbridge.com>
 #       :   kedwards <kedwards@livity.consulting>
 # Desc  :   Downloads, installs, and configures a linux enviornment for Ansible
 #
-# ps.exe < 3.* requires:
-#   $PSScriptRoot = Split-Path MyInvocation.MyCommand.Path -Parent
-#   $PSScriptRoot = Split-Path $script:MyInvocation.MyCommand.Path
+# Requirements:
+#   - Wasp: https://archive.codeplex.com/?p=wasp
 #
+#   - ps.exe < 3.* requires:
+#     $PSScriptRoot = Split-Path MyInvocation.MyCommand.Path -Parent
+#     or
+#     $PSScriptRoot = Split-Path $script:MyInvocation.MyCommand.Path
+#
+if(!$PSScriptRoot){ $PSScriptRoot = $PSScriptRoot = Split-Path $script:MyInvocation.MyCommand.Path }
 Set-Variable -Name 'wasp' -Value "$PSScriptRoot\WASP.dll"
 Set-Variable -Name 'abow_home' -Value "C:\Users\$env:UserName\$install_path"
 Set-Variable -Name 'babun_version' -Value '1.2.0'
-Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download' # "https://github.com/babun/babun/archive/v1.2.0.zip"
-Set-Variable -Name 'cmdr_version' -Value 'v1.3.2'
+Set-Variable -Name 'babun_src' -Value 'http://projects.reficio.org/babun/download'
+Set-Variable -Name 'cmdr_version' -Value 'v1.3.6'
 Set-Variable -Name 'cmdr_src' -Value "https://github.com/cmderdev/cmder/releases/download/$cmdr_version/cmder_mini.zip"
-Set-Variable -Name 'abb_src' -Value 'http://bit.ly/mrm-abb-2-install' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
-Set-Variable -Name 'error_install_path' -Value "Error: {0} path exists:`n  - Remove this path or use the -install_path command line argument to install to a new directory.`n  - Alternatively use the -ignore_exist command line argument to force install (Not Recommended.)"
+Set-Variable -Name 'abb_src' -Value 'http://bit.ly/abb-install' # https://github.com/kedwards/ansible-babun-bootstrap/install.sh
+Set-Variable -Name 'error_install_path' -Value "Error: {0} path exists: `
+`n`tYou have the following choices to resolve this error. `
+`n`t1. Remove the {0} directory and rerun the command `
+`t./abow
+`n`t2. Use the -install_path arg to install to a new directory `
+`t./abow -install_path linux2 `
+`n`t3. Use the -ignore_exist arg to force install (Not Recommended) `
+`t./abow -ignore_exist `
+"
+Set-Variable -Name 'error_wasp_notfound' -Value "Error: WASP.dll not found or cannot be loaded `
+`n`tDownload the wasp.dll and place it next to the abow script `
+`n`tWasp: Wasp: https://archive.codeplex.com/?p=wasp `
+"
 
 Clear-Host
 
 If (Test-Path $wasp) {
     Import-Module $wasp
 } Else {
-    Write-Host "\nError: WASP.dll not found or cannot be loaded.\n"
+    Write-Host ("$error_wasp_notfound" -f $wasp)
     Pause
     Exit
 }
@@ -70,8 +85,7 @@ function Do-Unzip
 
     $shell = new-object -com shell.application
     $zip = $shell.namespace($dep.Dest)
-    $shell.namespace($abow_home).Copyhere($zip.items(), 0x14) # 0x4 = hides dialog box, 0x10 = overwrite,  0x14 = hide and overwrite
-
+    $shell.namespace($abow_home).Copyhere($zip.items(), 0x14) # 0x4 = hides dialog box, 0x10 = overwrite, 0x14 = hide and overwrite
     Write-Host ".ok"
 }
 
@@ -79,14 +93,12 @@ function Do-Get
 {
     param([Parameter(Mandatory=$true)][object]$dep)
 
-    Write-Host -NoNewline ("Retrieving {0}.." -f $dep.Name)
-
     If (!( Test-Path $dep.Dest)) {
+        Write-Host -NoNewline ("Retrieving {0}.." -f $dep.Name)
         $webc = New-Object System.Net.WebClient
         $webc.DownloadFile($dep.Src, $dep.Dest)
+        Write-Host ".ok"
     }
-
-    Write-Host ".ok"
 }
 
 function Do-Abb
@@ -96,7 +108,7 @@ function Do-Abb
     Start-Sleep -m 500
     $process | Send-Keys "{ENTER}"
     Start-Sleep -s 5
-    $process | Set-WindowPosition -Minimize
+    #$process | Set-WindowPosition -Minimize
 }
 
 function Do-Main
@@ -110,14 +122,17 @@ function Do-Main
 
     if (!(Test-Path $abow_home\.babun))
     {
-        foreach ($dep in $comps)
+        if (!(Test-Path $abow_home\babun-1.2.0\dist\babun.zip))
         {
-            Do-Get $dep
-            Do-Unzip $dep
-            Start-Sleep -s 3
-            Remove-Item $dep.Dest
+            Do-Get $o_babun
+            Do-Unzip $o_babun
         }
 
+        if (!(Test-Path $o_cmdr.dest))
+        {
+            Do-Get $o_cmdr
+            Do-Unzip $o_cmdr
+        }
         Start-Process $abow_home\babun-$babun_version\install.bat -ArgumentList '/t', "$abow_home"
 
         while (!($process = Select-Window mintty | Select-Object -first 1).ProcessId)
@@ -131,6 +146,9 @@ function Do-Main
         }
 
         Remove-Item $abow_home\babun-$babun_version -recurse
+
+        exit
+
     } else {
         Start-Process $abow_home\.babun\babun.bat
 
